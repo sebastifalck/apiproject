@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  postgres16:
+    image: postgres:16
+    container_name: postgres16
+    environment:
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: test1234
+      POSTGRES_DB: midb
+    ports:
+      - "5432:5432"
+    networks:
+      - apinet
+  apiproject:
+    build: .
+    container_name: apiproject
+    depends_on:
+      - postgres16
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      spring.datasource.password: test1234
+    networks:
+      - apinet
+networks:
+  apinet:
+    driver: bridge
