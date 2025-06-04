@@ -2,90 +2,32 @@
 
 .main-container {
   font-family: 'Inter', Arial, sans-serif;
-  background: #f8f9fb;
+  background: var(--background);
   min-height: 100vh;
   padding: 2rem 0;
 }
 
 .form-section {
   background: #fff;
-  max-width: 500px;
+  max-width: 700px;
   margin: 2rem auto;
   border-radius: 16px;
   box-shadow: 0 2px 16px #0001;
   padding: 2rem 2.5rem 2.5rem 2.5rem;
 }
 
-h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: #3a3a3a;
-}
+/* Elimina o comenta los estilos de .form-row, .form-row label, .form-row input, .form-row select, .btn-primary, etc.
+   porque ya están definidos en styles.scss con la nueva paleta. 
+   Si necesitas reglas de layout, déjalas, pero no sobrescribas colores ni bordes. */
 
 .form-row {
   display: flex;
   flex-direction: column;
   margin-bottom: 1.2rem;
 }
-.form-row label {
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-  color: #4b2994;
-}
-.form-row input {
-  padding: 0.5rem 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 1rem;
-  background: #f9f9fc;
-  transition: border 0.2s;
-}
-.form-row input:focus {
-  border: 1.5px solid #7b2ff2;
-  outline: none;
-}
-.add-field-row {
-  flex-direction: row;
-  gap: 0.5rem;
-  align-items: center;
-}
+
 .form-actions {
   display: flex;
   gap: 1.2rem;
   margin-top: 2rem;
-}
-.btn-primary {
-  background: #7b2ff2;
-  color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.btn-primary:hover {
-  background: #5f1bbd;
-}
-.btn-link {
-  color: #7b2ff2;
-  text-decoration: underline;
-  font-size: 1rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-.btn-link:hover {
-  color: #5f1bbd;
-}
-.success {
-  color: #27ae60;
-  margin-top: 1rem;
-}
-.error {
-  color: #e74c3c;
-  margin-top: 1rem;
 }

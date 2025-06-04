@@ -1,9 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
-/* You can add global styles to this file, and also import other style files */
+/* Paleta de verdes y estilos globales */
+:root {
+  --primary: #009e83;
+  --primary-dark: #00846e;
+  --primary-light: #8fd1b3;
+  --background: #f6faf9;
+  --input-bg: #e6f4ef;
+  --border: #b2dfd0;
+  --text: #222;
+  --navbar-bg: #009e83;
+  --navbar-link-hover: #ffe082;
+}
 
+/* NAVBAR */
 nav.navbar {
-  background: #7b2ff2;
+  background: var(--navbar-bg);
   color: #fff;
   padding: 1rem 0;
   display: flex;
@@ -11,24 +23,178 @@ nav.navbar {
   align-items: center;
   box-shadow: 0 2px 8px #0001;
   margin-bottom: 2rem;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
+
 nav.navbar .nav-links {
   display: flex;
   gap: 2rem;
 }
+
 nav.navbar a {
   color: #fff;
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
-  transition: color 0.2s;
-}
-nav.navbar a:hover {
-  color: #ffe082;
+  transition: background 0.2s, color 0.2s;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  margin: 0 0.2rem;
+  background: transparent;
+  border: 2px solid transparent;
+  display: inline-block;
 }
 
-/* Mantener estilos previos para main-container, forms, listas, etc. */
-@import './app-list/app-list.scss';
-@import './app-form/app-form.scss';
-@import './catalog-list/catalog-list.scss';
-@import './catalog-form/catalog-form.scss';
+nav.navbar a:hover,
+nav.navbar a.active {
+  background: var(--primary-dark);
+  color: #ffe082;
+  border: 2px solid #ffe082;
+}
+
+/* MAIN LAYOUT */
+body {
+  background: var(--background);
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.main-container {
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+/* FORMULARIOS */
+form {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.06);
+  padding: 2rem;
+  max-width: 480px;
+  margin: 2rem auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--primary-dark);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 1.2rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  font-size: 1rem;
+  color: var(--text);
+  transition: border 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  border: 2px solid var(--primary);
+  outline: none;
+  background: #fff;
+}
+
+input[type="submit"],
+button,
+.btn-primary {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  padding: 14px 0;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(0,158,131,0.08);
+}
+
+input[type="submit"]:hover,
+button:hover,
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+/* LISTAS Y TABLAS */
+.table-list {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.06);
+  margin: 2rem auto;
+  overflow: hidden;
+}
+
+.table-list th, .table-list td {
+  padding: 1rem;
+  text-align: left;
+}
+
+.table-list th {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.table-list tr:nth-child(even) {
+  background: var(--input-bg);
+}
+
+.table-list tr:hover {
+  background: #e0f7ef;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  form {
+    padding: 1rem;
+    max-width: 98vw;
+  }
+  .main-container {
+    padding: 1rem 0;
+  }
+  .table-list, .form-section {
+    max-width: 98vw;
+    font-size: 0.98rem;
+  }
+}
+
+/* Importa los estilos específicos de cada página */
+@import 'app/pages/app-list/app-list.scss';
+@import 'app/pages/app-form/app-form.scss';
+@import 'app/pages/catalog-list/catalog-list.scss';
+@import 'app/pages/catalog-form/catalog-form.scss';
