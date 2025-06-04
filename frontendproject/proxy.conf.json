@@ -1,0 +1,14 @@
+{
+  "/aux": {
+    "target": "http://localhost:8080",
+    "secure": false
+  },
+  "/consult": {
+    "target": "http://localhost:8080",
+    "secure": false
+  },
+  "/apps": {
+    "target": "http://localhost:8080",
+    "secure": false
+  }
+}

@@ -1,0 +1,105 @@
+<main class="main-container">
+  <section class="form-section">
+    <h1>Nueva aplicación</h1>
+    <form (ngSubmit)="submit()" #appForm="ngForm" autocomplete="off">
+      <div class="form-row">
+        <label>Nombre de la app</label>
+        <input [(ngModel)]="form.app" name="app" required />
+      </div>
+      <div class="form-row">
+        <label>Repositorio</label>
+        <input [(ngModel)]="form.repo_name" name="repo_name" required />
+        <input [(ngModel)]="form.repo_url" name="repo_url" placeholder="URL" required />
+      </div>
+      <div class="form-row">
+        <label>Proyecto</label>
+        <select [(ngModel)]="form.id_project_directory" name="id_project_directory" required>
+          <option *ngFor="let p of projects" [value]="p.id">{{p.project_name}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Responsable</label>
+        <select [(ngModel)]="form.id_person_in_charge" name="id_person_in_charge" required>
+          <option *ngFor="let p of persons" [value]="p.id">{{p.nombre}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Security Champion</label>
+        <select [(ngModel)]="form.id_security_champion" name="id_security_champion" required>
+          <option *ngFor="let s of security" [value]="s.id">{{s.nombre}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Ambiente</label>
+        <select [(ngModel)]="form.id_env_directory" name="id_env_directory" required>
+          <option *ngFor="let e of envs" [value]="e.id">{{e.env}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>País</label>
+        <select [(ngModel)]="form.id_country_directory" name="id_country_directory" required>
+          <option *ngFor="let c of countries" [value]="c.id">{{c.country}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Label</label>
+        <select [(ngModel)]="form.id_label_directory" name="id_label_directory" required>
+          <option *ngFor="let l of labels" [value]="l.id">{{l.app_label}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Tipo de aplicación</label>
+        <select [(ngModel)]="form.id_app_type_directory" name="id_app_type_directory" required>
+          <option *ngFor="let t of appTypes" [value]="t.id">{{t.app_type}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Pipeline</label>
+        <select [(ngModel)]="form.id_pipeline_properties_directory" name="id_pipeline_properties_directory" required>
+          <option *ngFor="let p of pipelines" [value]="p.id">Pipeline #{{p.id}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Runtime</label>
+        <select [(ngModel)]="form.id_runtime_directory" name="id_runtime_directory" required>
+          <option *ngFor="let r of runtimes" [value]="r.id">{{r.runtime_name}} {{r.version_path}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>SonarQube Path</label>
+        <input [(ngModel)]="form.sonarqubepath_exec" name="sonarqubepath_exec" />
+      </div>
+      <div class="form-row">
+        <label>Propiedad específica</label>
+        <select [(ngModel)]="selectedAppType" (change)="onAppTypeChange()" required>
+          <option value="microservice">Microservicio</option>
+          <option value="datastage">Datastage</option>
+          <option value="database">Database</option>
+          <option value="was">WAS</option>
+          <option value="pims">PIMS</option>
+        </select>
+        <ng-container [ngSwitch]="selectedAppType">
+          <select *ngSwitchCase="'microservice'" [(ngModel)]="form.id_microservice_directory" name="id_microservice_directory">
+            <option *ngFor="let m of microservices" [value]="m.id">Microservicio #{{m.id}}</option>
+          </select>
+          <select *ngSwitchCase="'datastage'" [(ngModel)]="form.id_datastage_properties_directory" name="id_datastage_properties_directory">
+            <option *ngFor="let d of datastages" [value]="d.id">Datastage #{{d.id}}</option>
+          </select>
+          <select *ngSwitchCase="'database'" [(ngModel)]="form.id_database_properties_directory" name="id_database_properties_directory">
+            <option *ngFor="let d of databases" [value]="d.id">Database #{{d.id}}</option>
+          </select>
+          <select *ngSwitchCase="'was'" [(ngModel)]="form.id_was_properties_directory" name="id_was_properties_directory">
+            <option *ngFor="let w of was" [value]="w.id">WAS #{{w.id}}</option>
+          </select>
+          <select *ngSwitchCase="'pims'" [(ngModel)]="form.id_pims_properties_directory" name="id_pims_properties_directory">
+            <option *ngFor="let p of pims" [value]="p.id">PIMS #{{p.id}}</option>
+          </select>
+        </ng-container>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" type="submit">Guardar</button>
+        <a class="btn-link" routerLink="/apps">Cancelar</a>
+      </div>
+    </form>
+  </section>
+</main>

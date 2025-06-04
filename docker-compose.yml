@@ -11,6 +11,8 @@ services:
       - "5432:5432"
     networks:
       - apinet
+    volumes:
+      - pgdata:/var/lib/postgresql/data
   apiproject:
     build: .
     container_name: apiproject
@@ -23,6 +25,19 @@ services:
       spring.datasource.password: test1234
     networks:
       - apinet
+  frontend:
+    build:
+      context: ./frontendproject
+      dockerfile: Dockerfile.frontend
+    container_name: frontend
+    depends_on:
+      - apiproject
+    ports:
+      - "4200:80"
+    networks:
+      - apinet
 networks:
   apinet:
     driver: bridge
+volumes:
+  pgdata:

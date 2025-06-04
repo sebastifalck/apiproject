@@ -52,22 +52,35 @@ public class ApiprojectApplication {
     @PostMapping("/aux/{tabla}")
     public ResponseEntity<?> addAuxItem(@PathVariable String tabla, @RequestBody Map<String, Object> body) {
         try {
-            StringBuilder sql = new StringBuilder("INSERT INTO ").append(tabla).append(" (");
-            StringBuilder values = new StringBuilder(" VALUES (");
-            List<Object> params = new ArrayList<>();
-            int i = 0;
-            for (String key : body.keySet()) {
-                if (i > 0) { sql.append(","); values.append(","); }
-                sql.append(key); values.append("?");
-                params.add(body.get(key));
-                i++;
+            if (tabla == null || tabla.trim().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nombre de tabla auxiliar inválido");
             }
-            sql.append(")").append(values).append(") RETURNING id;");
-            Map<String, Object> res = jdbcTemplate.queryForMap(sql.toString(), params.toArray());
+            List<String> keys = new ArrayList<>(body.keySet());
+            List<Object> params = new ArrayList<>();
+            for (String key : keys) {
+                params.add(body.get(key));
+            }
+            String columns = String.join(",", keys);
+            String placeholders = String.join(",", Collections.nCopies(keys.size(), "?"));
+            String sql = "INSERT INTO " + tabla + " (" + columns + ") VALUES (" + placeholders + ") RETURNING id;";
+            Map<String, Object> res = jdbcTemplate.queryForMap(sql, params.toArray());
             return ResponseEntity.ok(res);
         } catch (Exception e) {
             logger.error("Error en /aux/" + tabla, e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error insertando en tabla auxiliar: " + e.getMessage());
+        }
+    }
+
+    // Endpoint para obtener ítems de tablas auxiliares (GET /aux/{tabla})
+    @GetMapping("/aux/{tabla}")
+    public ResponseEntity<?> getAuxItems(@PathVariable String tabla) {
+        try {
+            String sql = "SELECT * FROM " + tabla + " ORDER BY id";
+            List<Map<String, Object>> items = jdbcTemplate.queryForList(sql);
+            return ResponseEntity.ok(items);
+        } catch (Exception e) {
+            logger.error("Error en GET /aux/" + tabla, e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error consultando tabla auxiliar: " + e.getMessage());
         }
     }
 
@@ -77,12 +90,17 @@ public class ApiprojectApplication {
         try {
             // Validar que solo un tipo de propiedad específica esté presente
             int count = 0;
+            // Solo cuenta como propiedad específica si el valor es un número mayor a cero
             String[] props = {"id_microservice_directory", "id_datastage_properties_directory", "id_database_properties_directory", "id_was_properties_directory", "id_pims_properties_directory"};
             for (String prop : props) {
-                if (body.containsKey(prop) && body.get(prop) != null) count++;
+                if (body.containsKey(prop) && body.get(prop) != null) {
+                    Object v = body.get(prop);
+                    if (v instanceof Number && ((Number)v).intValue() > 0) count++;
+                    else if (!(v instanceof Number)) count++; // por si en el futuro se usa objeto
+                }
             }
             if (count != 1) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Debe especificar solo un tipo de propiedad específica por aplicación");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Debe especificar solo un tipo de propiedad específica por aplicación (" + count + " recibidas)");
             }
             // Insertar en appname_directory
             Number appNameId = jdbcTemplate.queryForObject(

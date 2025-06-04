@@ -1,0 +1,16 @@
+<main class="main-container">
+  <section class="catalog-section">
+    <h1>Consulta de Catálogos</h1>
+    <div class="form-row">
+      <label>Catálogo</label>
+      <input [(ngModel)]="catalogName" name="catalogName" placeholder="Ej: env_directory" />
+      <button class="btn-primary" (click)="loadCatalog()">Cargar</button>
+    </div>
+    <div *ngIf="loading" class="loading">Cargando catálogo...</div>
+    <div *ngIf="error" class="error">{{error}}</div>
+    <ul *ngIf="items.length" class="catalog-list">
+      <li *ngFor="let item of items" class="catalog-item">{{item | json}}</li>
+    </ul>
+    <div *ngIf="!loading && !items.length && catalogName" class="empty">No hay ítems en este catálogo.</div>
+  </section>
+</main>

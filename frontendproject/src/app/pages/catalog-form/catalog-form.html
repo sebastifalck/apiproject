@@ -1,0 +1,24 @@
+<main class="main-container">
+  <section class="form-section">
+    <h1>Gestión de Catálogos</h1>
+    <form (ngSubmit)="submit()" #catForm="ngForm" autocomplete="off">
+      <div class="form-row">
+        <label>Catálogo</label>
+        <input [(ngModel)]="catalogName" name="catalogName" required placeholder="Ej: env_directory" />
+      </div>
+      <div class="form-row" *ngFor="let key of getKeys()">
+        <label>{{key}}</label>
+        <input [(ngModel)]="form[key]" [name]="key" required />
+      </div>
+      <div class="form-row add-field-row">
+        <input #newKey placeholder="Nuevo campo" />
+        <button type="button" class="btn-link" (click)="form[newKey.value]=''; newKey.value=''">Agregar campo</button>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" type="submit">Agregar ítem</button>
+      </div>
+      <div *ngIf="message" class="success">{{message}}</div>
+      <div *ngIf="error" class="error">{{error}}</div>
+    </form>
+  </section>
+</main>

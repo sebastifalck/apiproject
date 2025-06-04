@@ -1,0 +1,16 @@
+<main class="main-container">
+  <section class="app-section">
+    <h1>Aplicaciones</h1>
+    <a class="btn-primary" routerLink="/apps/new">+ Nueva aplicación</a>
+    <div *ngIf="loading" class="loading">Cargando aplicaciones...</div>
+    <div *ngIf="error" class="error">{{error}}</div>
+    <ul *ngIf="apps.length" class="app-list">
+      <li *ngFor="let app of apps" class="app-item">
+        <span class="app-name">{{app.json_obj?.app_name || 'Sin nombre'}}</span>
+        <span class="app-type">{{app.json_obj?.app_type || ''}}</span>
+        <a class="btn-link" [routerLink]="['/apps', app.id]">Ver detalle</a>
+      </li>
+    </ul>
+    <div *ngIf="!loading && !apps.length" class="empty">No hay aplicaciones registradas.</div>
+  </section>
+</main>
